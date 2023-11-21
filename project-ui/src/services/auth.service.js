@@ -1,28 +1,28 @@
 import http from "../http-common";
 
-class TutorialDataService {
+class AuthDataService {
   getAll() {
-    return http.get("/tutorials");
+    return http.get("/auth");
   }
 
   get(id) {
-    return http.get(`/tutorials/${id}`);
+    return http.get(`/auth/${id}`);
   }
 
   create(data) {
-    return http.post("/tutorials", data);
+    return http.post("/auth/signup", data);
   }
 
   update(id, data) {
-    return http.put(`/tutorials/${id}`, data);
+    return http.put(`/auth/${id}`, data);
   }
 
   delete(id) {
-    return http.delete(`/tutorials/${id}`);
+    return http.delete(`/auth/${id}`);
   }
 
   deleteAll() {
-    return http.delete(`/tutorials`);
+    return http.delete(`/auth`);
   }
 
   findByTitle(title) {
@@ -30,4 +30,4 @@ class TutorialDataService {
   }
 }
 
-export default new TutorialDataService();
+export default new AuthDataService();

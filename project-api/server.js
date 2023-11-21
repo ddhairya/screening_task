@@ -5,10 +5,12 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-  origin: process.env.CLIENT_ORIGIN || "http://localhost:8081" || "http://127.0.0.1:6868"
+  origin: process.env.CLIENT_ORIGIN || "http://localhost:8081" || "http://127.0.0.1:6868" || "http://localhost:8080"
 };
 
-app.use(cors(corsOptions));
+// app.use(cors());
+
+app.options('*', cors())
 
 // parse requests of content-type - application/json
 app.use(express.json());
@@ -29,7 +31,8 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to application." });
 });
 
-require("./app/routes/turorial.routes")(app);
+// require("./app/routes/turorial.routes")(app);
+require("./app/routes/auth.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.NODE_DOCKER_PORT || 8080;

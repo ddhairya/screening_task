@@ -3,7 +3,8 @@ import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import AddTutorial from "./components/add-tutorial.component";
+import Login from "./components/add-tutorial.component";
+import SignUp from "./components/signup.component";
 import Tutorial from "./components/tutorial.component";
 import TutorialsList from "./components/tutorials-list.component";
 
@@ -12,7 +13,7 @@ class App extends Component {
     return (
       <div>
         <nav className="navbar navbar-expand navbar-dark bg-dark">
-          <Link to={"/tutorials"} className="navbar-brand">
+          <Link to={"/login"} className="navbar-brand">
             Home
           </Link>
           <div className="navbar-nav mr-auto">
@@ -22,12 +23,12 @@ class App extends Component {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to={"/add"} className="nav-link">
+              <Link to={"/login"} className="nav-link">
                 Login
               </Link>
             </li>
             <li className="nav-item">
-              <Link to={"/add"} className="nav-link">
+              <Link to={"/signup"} className="nav-link">
                 SignUp
               </Link>
             </li>
@@ -37,7 +38,8 @@ class App extends Component {
         <div className="container mt-3">
           <Switch>
             <Route exact path={["/", "/tutorials"]} component={TutorialsList} />
-            <Route exact path="/add" component={AddTutorial} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={SignUp} />
             <Route path="/tutorials/:id" component={Tutorial} />
           </Switch>
         </div>
