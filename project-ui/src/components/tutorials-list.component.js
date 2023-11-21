@@ -99,7 +99,14 @@ export default class TutorialsList extends Component {
             <input
               type="text"
               className="form-control"
-              placeholder="Search by title"
+              placeholder="User Name"
+              value={searchTitle}
+              onChange={this.onChangeSearchTitle}
+            />
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Password"
               value={searchTitle}
               onChange={this.onChangeSearchTitle}
             />
@@ -109,7 +116,7 @@ export default class TutorialsList extends Component {
                 type="button"
                 onClick={this.searchTitle}
               >
-                Search
+                Login
               </button>
             </div>
           </div>
