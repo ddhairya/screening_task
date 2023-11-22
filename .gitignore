@@ -3,6 +3,8 @@
 # dependencies
 project-ui/node_modules
 project-api/node_modules
+project-ui/package-lock.json
+project-api/package-lock.json
 
 
 # testing

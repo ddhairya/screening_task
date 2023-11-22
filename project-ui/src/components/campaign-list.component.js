@@ -33,8 +33,6 @@ export default class TutorialsList extends Component {
     this.retrieveCampaigns();
   }
 
- 
-
   retrieveCampaigns() {
     CampaignDataService.getAll()
       .then(response => {
@@ -50,7 +48,6 @@ export default class TutorialsList extends Component {
 
   refreshList() {
     this.retrieveCampaigns();
-    
   }
 
   newCampaign() {
@@ -112,10 +109,9 @@ export default class TutorialsList extends Component {
   render() {
     const {  campaigns } = this.state;
 
-
     return (
       <div className="list row">
-        <div >
+          <div>
             <div className="form-group">
               <label htmlFor="title">Title</label>
               <input
@@ -192,20 +188,15 @@ export default class TutorialsList extends Component {
           <div className="col-md-12">
             <h4>Campaigns List</h4>
 
-          <ul className="list-group">
-            {campaigns &&
-              campaigns.map((campaign, index) => (
-                <li
-                  key={index}
-                >
-                  {campaign.title} - {campaign.description} - {campaign.date} - {campaign.recursive ? "Recursive" : "Not Recursive"} - {campaign.frequency} 
-                </li>
-              ))}
-          </ul>
-
-          
-        </div>
-        
+            <ul className="list-group">
+              {campaigns &&
+                campaigns.map((campaign, index) => (
+                  <li key={index} >
+                    {campaign.title} - {campaign.description} - {campaign.date} - {campaign.recursive ? "Recursive" : "Not Recursive"} - {campaign.frequency} 
+                  </li>
+                ))}
+            </ul>
+          </div>        
       </div>
     );
   }
