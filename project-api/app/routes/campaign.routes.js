@@ -1,3 +1,4 @@
+const { authJwt } = require("../middleware");
 const campaigns = require("../controllers/campaign.controller.js");
 
 module.exports = app => {
@@ -10,29 +11,35 @@ module.exports = app => {
 
     next();
   });
+
+
+  app.get("/api/campaigns/", [authJwt.verifyToken], campaigns.findAll);
+  app.post("/api/campaigns/", [authJwt.verifyToken], campaigns.create);
+
+
   
-  var router = require("express").Router();
+  // var router = require("express").Router();
 
-  // Create a new Campaign
-  router.post("/", campaigns.create);
+  // // Create a new Campaign
+  // // router.post("/", campaigns.create);
 
-  // Retrieve all Campaigns
-  router.get("/", campaigns.findAll);
+  // // Retrieve all Campaigns
+  // // router.get("/", campaigns.findAll);
 
-  // Retrieve all published Campaigns
-  router.get("/published", campaigns.findAllPublished);
+  // // Retrieve all published Campaigns
+  // router.get("/published", campaigns.findAllPublished);
 
-  // Retrieve a single Campaign with id
-  router.get("/:id", campaigns.findOne);
+  // // Retrieve a single Campaign with id
+  // router.get("/:id", campaigns.findOne);
 
-  // Update a Campaign with id
-  router.put("/:id", campaigns.update);
+  // // Update a Campaign with id
+  // router.put("/:id", campaigns.update);
 
-  // Delete a Campaign with id
-  router.delete("/:id", campaigns.delete);
+  // // Delete a Campaign with id
+  // router.delete("/:id", campaigns.delete);
 
-  // Delete all Campaigns
-  router.delete("/", campaigns.deleteAll);
+  // // Delete all Campaigns
+  // router.delete("/", campaigns.deleteAll);
 
-  app.use('/api/campaigns', router);
+  // app.use('/api/campaigns', router);
 };

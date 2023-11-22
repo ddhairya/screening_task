@@ -16,13 +16,13 @@ export default class TutorialsList extends Component {
     this.refreshList = this.refreshList.bind(this);
 
     this.state = {
-      tutorials: [],
+      campaigns: [],
       id: null,
       title: "",
       description: "", 
       date: "",
       recursive : false,
-      frequency : "Monday",
+      frequency : "",
       published: false,
 
       submitted: false
@@ -39,7 +39,7 @@ export default class TutorialsList extends Component {
     CampaignDataService.getAll()
       .then(response => {
         this.setState({
-          tutorials: response.data
+          campaigns: response.data
         });
         console.log(response.data);
       })
@@ -80,7 +80,7 @@ export default class TutorialsList extends Component {
   }
   onChangeFrequency(e) {
     this.setState({
-      recursive: e.target.value
+      frequency: e.target.value
     });
   }
   saveCampaign() {
@@ -89,18 +89,20 @@ export default class TutorialsList extends Component {
       description: this.state.description,
       date: this.state.date,
       recursive: this.state.recursive,
+      frequency: this.state.frequency,
     };
-
-    // console.log(data)
 
     CampaignDataService.create(data)
       .then(response => {
         this.setState({
-          id: response.data.id,
-          email: response.data.email,
-          password: response.data.password,
+          title: "",
+          description: "", 
+          date: "",
+          recursive : false,
+          frequency : "",
           submitted: true
         });
+        this.refreshList()
         console.log(response.data);
       })
       .catch(e => {
@@ -108,12 +110,12 @@ export default class TutorialsList extends Component {
       });
   }
   render() {
-    const {  tutorials } = this.state;
+    const {  campaigns } = this.state;
 
 
     return (
       <div className="list row">
-        <div>
+        <div >
             <div className="form-group">
               <label htmlFor="title">Title</label>
               <input
@@ -162,6 +164,7 @@ export default class TutorialsList extends Component {
             </div>
             { (this.state.recursive) ? (
               <div className="form-group">
+                <label htmlFor="description" className="m-2">Every </label>
               <select value={this.state.frequency} onChange={this.onChangeFrequency}>
                 <option value="0">Sunday</option>
                 <option value="1">Monday</option>
@@ -184,16 +187,16 @@ export default class TutorialsList extends Component {
             
           </div>
 
-          <div className="col-md-6">
-          <h4>Campaigns List</h4>
+          <div className="col-md-12">
+            <h4>Campaigns List</h4>
 
           <ul className="list-group">
-            {tutorials &&
-              tutorials.map((tutorial, index) => (
+            {campaigns &&
+              campaigns.map((campaign, index) => (
                 <li
                   key={index}
                 >
-                  {tutorial.title} - {tutorial.description} - {tutorial.date} - {tutorial.recursive} - {tutorial.frequency} 
+                  {campaign.title} - {campaign.description} - {campaign.date} - {campaign.recursive ? "Recursive" : "Not Recursive"} - {campaign.frequency} 
                 </li>
               ))}
           </ul>

@@ -7,6 +7,7 @@ export default class SignUp extends Component {
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
     this.saveUser = this.saveUser.bind(this);
+    this.loginUser = this.loginUser.bind(this);
     this.newUser = this.newUser.bind(this);
 
     this.state = {
@@ -38,9 +39,6 @@ export default class SignUp extends Component {
     AuthDataService.create(data)
       .then(response => {
         this.setState({
-          id: response.data.id,
-          email: response.data.email,
-          password: response.data.password,
           submitted: true
         });
         console.log(response.data);
@@ -58,11 +56,9 @@ export default class SignUp extends Component {
     AuthDataService.login(data)
       .then(response => {
         this.setState({
-          id: response.data.id,
-          email: response.data.email,
-          password: response.data.password,
           submitted: true
         });
+        localStorage.setItem('token', response.data.accessToken);
         console.log(response.data);
       })
       .catch(e => {
