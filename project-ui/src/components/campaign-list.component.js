@@ -8,21 +8,25 @@ export default class TutorialsList extends Component {
   constructor(props) {
     super(props);
     this.onChangeTitle = this.onChangeTitle.bind(this);
+    this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeFrequency = this.onChangeFrequency.bind(this);
     this.saveCampaign = this.saveCampaign.bind(this);
     this.retrieveCampaigns = this.retrieveCampaigns.bind(this);
     this.refreshList = this.refreshList.bind(this);
+    this.deleteActiveCampaign = this.deleteActiveCampaign.bind(this);
+
 
     this.state = {
       campaigns: [],
       id: null,
       title: "",
+      email: "",
       description: "", 
       date: "",
       recursive : false,
-      frequency : "",
+      frequency : "0",
       published: false,
 
       submitted: false
@@ -38,6 +42,40 @@ export default class TutorialsList extends Component {
       .then(response => {
         this.setState({
           campaigns: response.data
+        });
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+
+  deleteActiveCampaign(campaign, index) {
+    var moment = require("moment-timezone")
+
+    var data = {
+      title: campaign .title,
+      description: campaign .description,
+      date: moment(campaign .date).tz('Asia/Dubai').format('YYYY-MM-DD, HH:mm:ss').toString(),
+      recursive: campaign .recursive,
+      frequency: campaign .frequency,
+      email : campaign.email,
+      is_deleted : true
+    };
+
+    console.log(data)
+   
+    CampaignDataService.update(campaign.id, data)
+      .then(response => {
+        this.refreshList()
+        this.setState({
+          title: "",
+          description: "", 
+          date: "",
+          recursive : false,
+          frequency : "0",
+          email : "",
+          submitted: true
         });
         console.log(response.data);
       })
@@ -65,6 +103,11 @@ export default class TutorialsList extends Component {
       title: e.target.value
     });
   }
+  onChangeEmail(e) {
+    this.setState({
+      email: e.target.value
+    });
+  }
   onChangeDescription(e) {
     this.setState({
       description: e.target.value
@@ -88,6 +131,7 @@ export default class TutorialsList extends Component {
       date: moment(this.state.date).tz('Asia/Dubai').format('YYYY-MM-DD, HH:mm:ss').toString(),
       recursive: this.state.recursive,
       frequency: this.state.frequency,
+      email: this.state.email
     };
     // console.log(data,"-----------data", moment(this.state.date).format('YYYY-MM-DD, HH:mm:ss'), moment(this.state.date).format('YYYY-MM-DD, HH:mm:ss').toString())
     CampaignDataService.create(data)
@@ -97,7 +141,8 @@ export default class TutorialsList extends Component {
           description: "", 
           date: "",
           recursive : false,
-          frequency : "",
+          frequency : "0",
+          email: "",
           submitted: true
         });
         this.refreshList()
@@ -138,6 +183,18 @@ export default class TutorialsList extends Component {
               />
             </div>
             <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="text"
+                className="form-control"
+                id="email"
+                required
+                value={this.state.email}
+                onChange={this.onChangeEmail}
+                name="email"
+              />
+            </div>
+            <div className="form-group">
               <div htmlFor="date">Date</div>
               <DatePicker
                 selected={this.state.date}
@@ -153,7 +210,7 @@ export default class TutorialsList extends Component {
             <div className="form-group">
             <label>
               <input type="checkbox"
-                defaultChecked={this.state.recursive}
+              checked={this.state.recursive}
                 onChange={() => this.setState({
                   recursive: !this.state.recursive
                 })}
@@ -188,12 +245,14 @@ export default class TutorialsList extends Component {
 
           <div className="col-md-12">
             <h4>Campaigns List</h4>
-
+            <label htmlFor="description" className="m-2">Click on any list item to delete </label>
             <ul className="list-group">
-              {campaigns &&
+              {campaigns && campaigns.length > 0 &&
                 campaigns.map((campaign, index) => (
-                  <li key={index} >
-                    {campaign.title} - {campaign.description} - {campaign.date} - {campaign.recursive ? "Recursive" : "Not Recursive"} - {campaign.frequency} 
+                  <li 
+                    onClick={() => this.deleteActiveCampaign(campaign, index)}
+                    key={index} >
+                    {campaign.title} - {campaign.description} - {campaign.email } - {campaign.date} - {campaign.recursive ? "Recursive" : "Not Recursive"} - {campaign.frequency} 
                   </li>
                 ))}
             </ul>

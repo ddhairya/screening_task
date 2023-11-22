@@ -3,6 +3,9 @@ module.exports = (sequelize, Sequelize) => {
     title: {
       type: Sequelize.STRING
     },
+    email: {
+      type: Sequelize.STRING
+    },
     description: {
       type: Sequelize.STRING
     },
@@ -14,6 +17,10 @@ module.exports = (sequelize, Sequelize) => {
     },
     frequency: {
       type: Sequelize.STRING
+    },
+    is_deleted: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
     }
   });
 

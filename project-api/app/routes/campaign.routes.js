@@ -17,4 +17,5 @@ module.exports = app => {
   
   app.post("/api/campaigns/", [authJwt.verifyToken], campaigns.create);
 
+  app.put("/api/campaigns/:id", [authJwt.verifyToken], campaigns.update);
 };

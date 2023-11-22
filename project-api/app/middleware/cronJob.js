@@ -1,10 +1,9 @@
 const db = require("../models");
+const Logs = require("../controllers/log.controller.js");
 const User = db.user;
 const Campaign = db.campaign;
 
-
-
-funRecursiveCampaign = () => {
+funCampaign = () => {
     try {
       let now = new Date()
       new Date(now.setSeconds(0))
@@ -23,6 +22,12 @@ funRecursiveCampaign = () => {
             let ele_day = element.dataValues.frequency
             if(ele_day == day && ele_mints == mints && (ele_hours) == hours ){
               console.log(element.dataValues)
+              let item = {
+                title: element.dataValues.title,
+                campaign_id: element.dataValues.id,
+                email: element.dataValues.email,
+              }
+              Logs.create(item)
             }
           });
         }else{
@@ -43,6 +48,12 @@ funRecursiveCampaign = () => {
             console.log(now.getTime() == ele_date.getTime(),now.getTime() , ele_date.getTime(), now, ele_date)
             if(now.getTime() == ele_date.getTime() ){
               console.log(element.dataValues)
+              let item = {
+                title: element.dataValues.title,
+                campaign_id: element.dataValues.id,
+                email: element.dataValues.email,
+              }
+              Logs.create(item)
             }
           });
         }else{
@@ -59,39 +70,7 @@ funRecursiveCampaign = () => {
     }
 }
 
-funOneTimeCampaign = () => {
-  try {
-    let now = new Date()
-    new Date(now.setSeconds(0))
-    new Date(now.setMilliseconds(0))
-
-    Campaign.findAll({ where : { recursive : false} })
-    .then(data => {
-      console.log(data)
-
-      if(data.length > 0){
-        data.forEach(element => {
-          let ele_date = element.dataValues.date
-          console.log(now.getTime() == ele_date.getTime(),now.getTime() , ele_date.getTime())
-          if(now.getTime() == ele_date.getTime() ){
-            console.log(element.dataValues)
-          }
-        });
-      }else{
-        console.log("Exit the cron job no one time data")
-      }
-    })
-    .catch(err => {
-      console.log(err, "Exit the cron job")
-    });
-  } catch (error) {
-      console.log(error.message);
-  }
-}
-
-
 const cronJob = {
-  funRecursiveCampaign:funRecursiveCampaign,
-  // funOneTimeCampaign:funOneTimeCampaign
+  funCampaign:funCampaign,
 };
 module.exports = cronJob;

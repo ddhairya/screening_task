@@ -30,7 +30,6 @@ exports.create = (req, res) => {
     return;
   }
   var moment = require("moment-timezone")
-  console.log(req.body.date,"-------------------req.body.date")
   // Create a Campaign
   const tutorial = {
     title: req.body.title,
@@ -38,6 +37,7 @@ exports.create = (req, res) => {
     date: req.body.date,
     recursive: req.body.recursive,
     frequency: req.body.frequency,
+    email: req.body.email,
     published: req.body.published ? req.body.published : false
   };
 
@@ -71,7 +71,7 @@ exports.findOne = (req, res) => {
 
 // Update a Campaign by the id in the request
 exports.update = (req, res) => {
-  const id = req.params.id;
+  const id = Number(req.params.id);
 
   Campaign.update(req.body, {
     where: { id: id }
