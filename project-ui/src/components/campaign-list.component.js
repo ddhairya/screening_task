@@ -148,6 +148,8 @@ export default class TutorialsList extends Component {
                   date: date
                 })}
                 showTimeSelect
+                timeFormat="p"
+                timeIntervals={15}
                 dateFormat="Pp"
               />
             </div>

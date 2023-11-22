@@ -1,6 +1,9 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const cron = require('node-cron');
+const { cronJob } = require("./app/middleware");
+
 
 const app = express();
 
@@ -41,3 +44,13 @@ const PORT = process.env.NODE_DOCKER_PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
+
+
+// At every minute
+cron.schedule("* * * * *", () => {
+  cronJob.funRecursiveCampaign()
+  cronJob.funOneTimeCampaign()
+});
+
+// cronJob.funRecursiveCampaign()
+// cronJob.funOneTimeCampaign()
