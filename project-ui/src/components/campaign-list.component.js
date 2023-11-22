@@ -12,18 +12,11 @@ export default class TutorialsList extends Component {
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeFrequency = this.onChangeFrequency.bind(this);
     this.saveCampaign = this.saveCampaign.bind(this);
-
-    // this.retrieveTutorials = this.retrieveTutorials.bind(this);
-    // this.refreshList = this.refreshList.bind(this);
-    // this.setActiveTutorial = this.setActiveTutorial.bind(this);
-    // this.removeAllTutorials = this.removeAllTutorials.bind(this);
-    // this.searchTitle = this.searchTitle.bind(this);
+    this.retrieveCampaigns = this.retrieveCampaigns.bind(this);
+    this.refreshList = this.refreshList.bind(this);
 
     this.state = {
       tutorials: [],
-      currentTutorial: null,
-      currentIndex: -1,
-      searchTitle: "",
       id: null,
       title: "",
       description: "", 
@@ -37,18 +30,12 @@ export default class TutorialsList extends Component {
   }
 
   componentDidMount() {
-    this.retrieveTutorials();
+    this.retrieveCampaigns();
   }
 
-  onChangeSearchTitle(e) {
-    const searchTitle = e.target.value;
+ 
 
-    this.setState({
-      searchTitle: searchTitle
-    });
-  }
-
-  retrieveTutorials() {
+  retrieveCampaigns() {
     CampaignDataService.getAll()
       .then(response => {
         this.setState({
@@ -62,48 +49,10 @@ export default class TutorialsList extends Component {
   }
 
   refreshList() {
-    this.retrieveTutorials();
-    this.setState({
-      currentTutorial: null,
-      currentIndex: -1
-    });
+    this.retrieveCampaigns();
+    
   }
 
-  setActiveTutorial(tutorial, index) {
-    this.setState({
-      currentTutorial: tutorial,
-      currentIndex: index
-    });
-  }
-
-  removeAllTutorials() {
-    CampaignDataService.deleteAll()
-      .then(response => {
-        console.log(response.data);
-        this.refreshList();
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  }
-
-  searchTitle() {
-    this.setState({
-      currentTutorial: null,
-      currentIndex: -1
-    });
-
-    CampaignDataService.findByTitle(this.state.searchTitle)
-      .then(response => {
-        this.setState({
-          tutorials: response.data
-        });
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  }
   newCampaign() {
     this.setState({
       id: null,
@@ -142,24 +91,25 @@ export default class TutorialsList extends Component {
       recursive: this.state.recursive,
     };
 
-    console.log(data)
+    // console.log(data)
 
-    // CampaignDataService.create(data)
-    //   .then(response => {
-    //     this.setState({
-    //       id: response.data.id,
-    //       email: response.data.email,
-    //       password: response.data.password,
-    //       submitted: true
-    //     });
-    //     console.log(response.data);
-    //   })
-    //   .catch(e => {
-    //     console.log(e);
-    //   });
+    CampaignDataService.create(data)
+      .then(response => {
+        this.setState({
+          id: response.data.id,
+          email: response.data.email,
+          password: response.data.password,
+          submitted: true
+        });
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
   }
   render() {
-    const { searchTitle, tutorials, currentTutorial, currentIndex } = this.state;
+    const {  tutorials } = this.state;
+
 
     return (
       <div className="list row">
@@ -233,6 +183,23 @@ export default class TutorialsList extends Component {
             </button>
             
           </div>
+
+          <div className="col-md-6">
+          <h4>Campaigns List</h4>
+
+          <ul className="list-group">
+            {tutorials &&
+              tutorials.map((tutorial, index) => (
+                <li
+                  key={index}
+                >
+                  {tutorial.title} - {tutorial.description} - {tutorial.date} - {tutorial.recursive} - {tutorial.frequency} 
+                </li>
+              ))}
+          </ul>
+
+          
+        </div>
         
       </div>
     );

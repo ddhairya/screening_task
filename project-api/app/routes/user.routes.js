@@ -13,4 +13,7 @@ module.exports = function(app) {
   });
 
   router.get("/", users.findAll);
+
+  app.use('/api/users', router);
+
 };
