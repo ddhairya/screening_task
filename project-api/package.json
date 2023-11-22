@@ -25,6 +25,7 @@
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.0",
     "node-cron": "^3.0.1",
-    "moment-timezone": "^0.5.40"
+    "moment-timezone": "^0.5.40",
+    "moment": "^2.29.4"
   }
 }

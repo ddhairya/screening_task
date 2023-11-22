@@ -29,7 +29,8 @@ exports.create = (req, res) => {
     });
     return;
   }
-
+  var moment = require("moment-timezone")
+  console.log(req.body.date,"-------------------req.body.date")
   // Create a Campaign
   const tutorial = {
     title: req.body.title,

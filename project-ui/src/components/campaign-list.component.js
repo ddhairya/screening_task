@@ -81,14 +81,15 @@ export default class TutorialsList extends Component {
     });
   }
   saveCampaign() {
+    var moment = require("moment-timezone")
     var data = {
       title: this.state.title,
       description: this.state.description,
-      date: this.state.date,
+      date: moment(this.state.date).tz('Asia/Dubai').format('YYYY-MM-DD, HH:mm:ss').toString(),
       recursive: this.state.recursive,
       frequency: this.state.frequency,
     };
-
+    // console.log(data,"-----------data", moment(this.state.date).format('YYYY-MM-DD, HH:mm:ss'), moment(this.state.date).format('YYYY-MM-DD, HH:mm:ss').toString())
     CampaignDataService.create(data)
       .then(response => {
         this.setState({

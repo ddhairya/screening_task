@@ -48,8 +48,10 @@ app.listen(PORT, () => {
 // At every minute
 cron.schedule("* * * * *", () => {
   cronJob.funRecursiveCampaign()
-  cronJob.funOneTimeCampaign()
 });
+// cron.schedule("* * * * *", () => {
+//   cronJob.funOneTimeCampaign()
+// });
 
-// cronJob.funRecursiveCampaign()
+cronJob.funRecursiveCampaign()
 // cronJob.funOneTimeCampaign()

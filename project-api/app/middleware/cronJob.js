@@ -26,7 +26,27 @@ funRecursiveCampaign = () => {
             }
           });
         }else{
-          console.log("Exit the cron job no data")
+          console.log("Exit the cron job no recursive data")
+        }
+      })
+      .catch(err => {
+        console.log(err, "Exit the cron job")
+      });
+
+      Campaign.findAll({ where : { recursive : false} })
+      .then(data => {
+        
+        if(data.length > 0){
+          console.log(data)
+          data.forEach(element => {
+            let ele_date = element.dataValues.date
+            console.log(now.getTime() == ele_date.getTime(),now.getTime() , ele_date.getTime(), now, ele_date)
+            if(now.getTime() == ele_date.getTime() ){
+              console.log(element.dataValues)
+            }
+          });
+        }else{
+          console.log("Exit the cron job no one time data")
         }
       })
       .catch(err => {
@@ -47,16 +67,18 @@ funOneTimeCampaign = () => {
 
     Campaign.findAll({ where : { recursive : false} })
     .then(data => {
+      console.log(data)
+
       if(data.length > 0){
         data.forEach(element => {
           let ele_date = element.dataValues.date
-          
+          console.log(now.getTime() == ele_date.getTime(),now.getTime() , ele_date.getTime())
           if(now.getTime() == ele_date.getTime() ){
             console.log(element.dataValues)
           }
         });
       }else{
-        console.log("Exit the cron job")
+        console.log("Exit the cron job no one time data")
       }
     })
     .catch(err => {
@@ -70,6 +92,6 @@ funOneTimeCampaign = () => {
 
 const cronJob = {
   funRecursiveCampaign:funRecursiveCampaign,
-  funOneTimeCampaign:funOneTimeCampaign
+  // funOneTimeCampaign:funOneTimeCampaign
 };
 module.exports = cronJob;
