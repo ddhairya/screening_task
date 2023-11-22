@@ -3,7 +3,7 @@ const Campaign = db.campaign;
 const Op = db.Sequelize.Op;
 
 
-// Retrieve all Users from the database.
+// Retrieve all CampaignS from the database.
 exports.findAll = (req, res) => {
   const email = req.query.email;
   var condition = email ? { email: { [Op.like]: `%${email}%` } } : null;
@@ -118,7 +118,7 @@ exports.delete = (req, res) => {
     });
 };
 
-// Delete all Users from the database.
+// Delete all CampaignS from the database.
 exports.deleteAll = (req, res) => {
   Campaign.destroy({
     where: {},
